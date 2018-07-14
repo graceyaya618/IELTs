@@ -37,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onResult
 
-            [
+            www[
                     ]
 
 
