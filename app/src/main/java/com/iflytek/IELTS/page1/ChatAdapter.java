@@ -82,7 +82,18 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        questionHolder qh = (questionHolder) holder;
+        ChatItemModel chatItemModel = arrayList.get(position);
+
+        if (position % 2 == 0) {
+            questionHolder qh = (questionHolder) holder;
+            qh.questionBubble.getLayoutParams().width = chatItemModel.getVoiceText().length() * 10;
+
+        } else if (position % 2 == 1) {
+
+
+        }
+
+
 //        holder.questionBubble.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
