@@ -1,4 +1,4 @@
-package com.iflytek.IELTS.page1.Model;
+package com.iflytek.IELTS.page1;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.iflytek.IELTS.page1.Model.ChatItemModel;
 import com.iflytek.voicedemo.R;
 
 import java.io.IOException;

@@ -75,7 +75,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
             return 1;
         } else if (position % 2 == 1) {
             return 2;
-        }//? 我的网 手机上用不了了？现在你能连上我的远程吗 能
+        }
 
         return super.getItemViewType(position);
     }

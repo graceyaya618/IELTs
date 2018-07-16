@@ -1,4 +1,4 @@
-package com.iflytek.IELTS.page1.Model;
+package com.iflytek.IELTS.page1;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.iflytek.IELTS.page1.ChatAdapter;
 import com.iflytek.IELTS.page1.Handler.IATHandler;
 import com.iflytek.IELTS.page1.Handler.TTSHandler;
+import com.iflytek.IELTS.page1.Model.ChatItemModel;
 import com.iflytek.voicedemo.R;
 
 import java.util.ArrayList;
@@ -159,11 +159,11 @@ public class MyFirst extends AppCompatActivity {
     //初始化问题列表
     public void initQuestion(){
         over = false;
-        questionArray.add("What subjects were your favorite? Why?");
-        questionArray.add("What subjects were your least favorite? Why?");
+        questionArray.add("What's the most interesting part of your subject?");
+        questionArray.add("Which subjects were your least favorite? Why?");
         questionArray.add("Other than the courses you studied, what is the most important thing you learned from your college experience?");
-        questionArray.add("What kind of person do you want to be?");
-        questionArray.add("What's your favorite?");
+        questionArray.add("Can you describe your city / home town / village?");
+        questionArray.add("How will you get the job you want?");
     }
 
     //获取最新问题，并播放
