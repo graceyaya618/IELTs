@@ -1,4 +1,4 @@
-package com.iflytek.assist;
+package com.iflytek.IELTS.page1.Handler;//如果从其它项目拷贝的类，包路径要改一下 不然找不到
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +26,7 @@ import com.iflytek.speech.setting.IatSettings;
 import com.iflytek.speech.util.JsonParser;
 import com.iflytek.sunflower.FlowerCollector;
 import com.iflytek.voicedemo.IatDemo;
-import com.iflytek.voicedemo.R;
+//import com.iflytek.voicedemo.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,11 +43,9 @@ public class IATHandler {
     private static String TAG = IatDemo.class.getSimpleName();
     // 语音听写对象
     private SpeechRecognizer mIat;
-    // 语音听写UI
+
     // 用HashMap存储听写结果
     private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
-
-
     private Toast mToast;
     private SharedPreferences mSharedPreferences;
     // 引擎类型
@@ -57,17 +55,17 @@ public class IATHandler {
 
     public IATDelegate delegate;
 
+    public Boolean isListening  = false;
+    private String voiceFilePath = "";
 
+    /*协议*/
     public interface IATDelegate {
-
         void onResult(String text,Boolean isLast);
         void onError(String text);
-
     }
 
 
-
-    public  IATHandler(){
+    public IATHandler(){
 
     }
 
@@ -85,10 +83,13 @@ public class IATHandler {
 
     }
 
+    public void stop(){
+        mIat.stopListening();
+    }
 
     public void start(){
-
         int ret = 0;
+        isListening = true;
         mIatResults.clear();
         // 设置参数
         setParam();
@@ -101,7 +102,6 @@ public class IATHandler {
         } else {
             showTip("请开始说话…");
         }
-
     }
 
 
@@ -139,6 +139,7 @@ public class IATHandler {
                 showTip( error.getPlainDescription(true)+"\n请确认是否已开通翻译功能" );
             } else {
                 showTip(error.getPlainDescription(true));
+                isListening = false;
             }
         }
 
@@ -146,28 +147,16 @@ public class IATHandler {
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
             showTip("结束说话");
+            isListening = false;
         }
 
         @Override
         public void onResult(RecognizerResult results, boolean isLast) {
-
-
             Log.d(TAG, results.getResultString());
-            if( mTranslateEnable ){
-
-                String trans  = JsonParser.parseTransResult(results.getResultString(),"dst");
-                String oris = JsonParser.parseTransResult(results.getResultString(),"src");
-
-                delegate.onResult(trans,isLast);
-
-                printTransResult( results );
-            }else{
-                String text = printResult(results);
-                delegate.onResult(text,isLast);
-            }
-
-            if (isLast) {
-                // TODO 最后的结果
+            String text = printResult(results);
+            delegate.onResult(text,isLast);
+            if (isLast){
+                isListening = false;
             }
         }
 
@@ -209,33 +198,6 @@ public class IATHandler {
         return resultBuffer.toString();
 
     }
-
-    /**
-     * 听写UI监听器
-     */
-    private RecognizerDialogListener mRecognizerDialogListener = new RecognizerDialogListener() {
-        public void onResult(RecognizerResult results, boolean isLast) {
-            if( mTranslateEnable ){
-                printTransResult( results );
-            }else{
-                printResult(results);
-            }
-
-        }
-
-        /**
-         * 识别回调错误.
-         */
-        public void onError(SpeechError error) {
-            if(mTranslateEnable && error.getErrorCode() == 14002) {
-                showTip( error.getPlainDescription(true)+"\n请确认是否已开通翻译功能" );
-            } else {
-                showTip(error.getPlainDescription(true));
-            }
-        }
-
-    };
-
 
 
     private void showTip(final String str) {
@@ -302,20 +264,14 @@ public class IATHandler {
         // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
         mIat.setParameter(SpeechConstant.AUDIO_FORMAT,"wav");
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/iat.wav");
+
+        String filename = String.valueOf(System.currentTimeMillis());
+        String path = Environment.getExternalStorageDirectory()+"/msc/"+filename+".wav";
+        voiceFilePath = path;
+        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, path);
     }
 
-    private void printTransResult (RecognizerResult results) {
-        String trans  = JsonParser.parseTransResult(results.getResultString(),"dst");
-        String oris = JsonParser.parseTransResult(results.getResultString(),"src");
 
-        if( TextUtils.isEmpty(trans)||TextUtils.isEmpty(oris) ){
-            showTip( "解析结果失败，请确认是否已开通翻译功能。" );
-        }else{
-            showTip( "原始语言:\n"+oris+"\n目标语言:\n"+trans );
-        }
-
-    }
 
     public void cancel() {
 
@@ -327,4 +283,10 @@ public class IATHandler {
     }
 
 
+    //TODO
+
+
+    public String getVoiceFilePath() {
+        return voiceFilePath;
+    }
 }

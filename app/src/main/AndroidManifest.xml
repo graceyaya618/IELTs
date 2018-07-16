@@ -96,8 +96,7 @@
             android:name="IFLYTEK_CHANNEL"
             android:value="Android_Demo" />
 
-        <activity android:name="com.iflytek.IELTS.page1.MyFirst" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        <activity android:name="com.iflytek.IELTS.page1.Model.MyFirst" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -105,9 +104,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+        </activity>
 
+        <activity android:name="com.iflytek.IELTS.page1.Model.AnswerActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         </activity>
+
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.iflytek.assist;
+package com.iflytek.IELTS.page1;
 
 
 import android.content.Context;
@@ -7,10 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+
+import com.iflytek.IELTS.page1.Model.ChatItemModel;
 import com.iflytek.voicedemo.R;
+
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  * Created by qxb-810 on 2018/7/11.
  */
 
-public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> {
+public class ChatAdapter extends RecyclerView.Adapter {
 
 
     private Context context;
@@ -29,98 +30,115 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     public interface chatDelegate {
 
-        void onResult(String text,Boolean isLast);
+        void onResult(String text, Boolean isLast);
+
         void onError(String text);
 
     }
 
-    @Override
-    public void onResult
 
-            www[
-                    ]
+    //泛型  数组内的数据要和指定的泛型一致
+    public ArrayList<ChatItemModel> arrayList = new ArrayList<>();
 
-
-    public ArrayList<String> arrayList;
-
-    public ChatAdapter(Context context,OnItemClickListener mItemClickListener){
+    public ChatAdapter(Context context, OnItemClickListener mItemClickListener) {
         this.context = context;
         this.mItemClickListener = mItemClickListener;
 
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    /*@Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_chat,parent,false);
-        return new MyViewHolder(view);
-    }*/
-
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
 
         if (viewType == 1) {
-            View view = parent.findViewById(R.id.bubble1);
-            return new MyViewHolder(view);
-        } else{ //if (viewType == 2)
-            View view = parent.findViewById(R.id.bubble2);
-            return new MyViewHolder(view);
-        }
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_list, parent, false);
 
+            return new questionHolder(view);
+        } else if (viewType == 2) {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.chat_list_reverse, parent, false);
+
+            return new answerHolder(view);
+        }
+        return null;
     }
 
     @Override
     public int getItemViewType(int position) {
 
-        if (position%2 == 0){
+        if (position % 2 == 0) {
             return 1;
-        }else if (position%2 == 1){
+        } else if (position % 2 == 1) {
             return 2;
-        }
+        }//? 我的网 手机上用不了了？现在你能连上我的远程吗 能
 
         return super.getItemViewType(position);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.textView.setText(arrayList.get(position));
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mItemClickListener.onItemClick(position);
-            }
-        });
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+//        questionHolder qh = (questionHolder) holder;
+//        holder.questionBubble.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mItemClickListener.onItemClick(position);
+//            }
+//        });
+
+        //先注释掉 等下再看这个问题
     }
+
 
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView textView;
-
-        private LinearLayout linearLayout;
-
-        private ImageView bubble1;
-
-        private ImageView bubble2;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            //textView = (TextView) itemView.findViewById(R.id.tv_question);
-            //linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_chat);
-            bubble1 = (ImageView) itemView.findViewById(R.id.bubble1);
-            bubble2 = (ImageView) itemView.findViewById(R.id.bubble2);
-
-
-
-        }
+    //TODO
+    public ArrayList<ChatItemModel> getArrayList() {
+        return arrayList;
     }
 
 
+    private class questionHolder extends RecyclerView.ViewHolder {
+
+        /*private TextView textView;
+
+        private LinearLayout linearLayout;*/
+
+        private ImageView questionBubble;
+
+
+        public questionHolder(View itemView) {
+            super(itemView);
+            //textView = (TextView) itemView.findViewById(R.id.tv_question);
+            //linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_chat);
+            questionBubble = (ImageView) itemView.findViewById(R.id.bubble1);
+
+        }
+
+
+    }
+
+    private class answerHolder extends RecyclerView.ViewHolder {
+
+        /* private TextView textView;
+
+         private LinearLayout linearLayout;
+ */
+        private ImageView answerBubble;
+
+        public answerHolder(View itemView) {
+            super(itemView);
+            //textView = (TextView) itemView.findViewById(R.id.tv_question);
+            //linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_chat);
+
+            answerBubble = (ImageView) itemView.findViewById(R.id.bubble2);
+        }
+    }
 }

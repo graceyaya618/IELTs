@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.iflytek.IELTS.page1.MyFirst">
+    tools:context="com.iflytek.IELTS.page1.Model.MyFirst">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -12,20 +12,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:background="@drawable/icon"
-        />
+
 
     <ImageView
-        android:id="@+id/image_view2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/image_view"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
