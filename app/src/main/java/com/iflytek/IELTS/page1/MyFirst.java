@@ -47,6 +47,10 @@ public class MyFirst extends AppCompatActivity {
             if (text.length() > 0) {
                 speechText = text;
                 if (isLast) {
+
+
+                    chatAdapter.getArrayList().get(chatAdapter.getArrayList().size() - 1).setVoicePath(handler.getVoiceFilePath());
+
                     ChatItemModel model = new ChatItemModel();
                     model.setVoiceText(speechText);
                     model.setVoicePath(handler.getVoiceFilePath());
@@ -160,10 +164,10 @@ public class MyFirst extends AppCompatActivity {
     public void initQuestion(){
         over = false;
         questionArray.add("What's the most interesting part of your subject?");
-        questionArray.add("Which subjects were your least favorite? Why?");
-        questionArray.add("Other than the courses you studied, what is the most important thing you learned from your college experience?");
-        questionArray.add("Can you describe your city / home town / village?");
-        questionArray.add("How will you get the job you want?");
+//        questionArray.add("Which subjects were your least favorite? Why?");
+//        questionArray.add("Other than the courses you studied, what is the most important thing you learned from your college experience?");
+//        questionArray.add("Can you describe your city / home town / village?");
+//        questionArray.add("How will you get the job you want?");
     }
 
     //获取最新问题，并播放
