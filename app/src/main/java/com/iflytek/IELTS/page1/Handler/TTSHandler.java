@@ -54,6 +54,7 @@ public class TTSHandler {
 
     private Boolean isSpeaking;
 
+
     public TTSHandler() {}
     public TTSHandler(Context context){
         mTts = SpeechSynthesizer.createSynthesizer(context, mTtsInitListener);
@@ -206,6 +207,15 @@ public class TTSHandler {
         // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
         mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "pcm");
         mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory()+"/msc/tts.pcm");
+    }
+
+
+    public Boolean getSpeaking() {
+        return isSpeaking;
+    }
+
+    public void setSpeaking(Boolean speaking) {
+        isSpeaking = speaking;
     }
 
     protected void cancel() {

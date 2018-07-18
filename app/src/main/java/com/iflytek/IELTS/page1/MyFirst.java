@@ -1,6 +1,8 @@
 package com.iflytek.IELTS.page1;
 
+import android.Manifest;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ public class MyFirst extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;//这种包路径不要加到这里，从上面import导入
     private ImageView imageView;
+    private ImageView next;
     private String speechText = "";
     private TTSHandler ttsHandler;
     private IATHandler handler;
@@ -104,6 +107,9 @@ public class MyFirst extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_first);
 
+        //acitivty中申请权限
+        ActivityCompat.requestPermissions(MyFirst.this, new String[]{Manifest.permission.RECORD_AUDIO},1);
+
         initQuestion();
 
         if (ttsHandler == null) {
@@ -112,6 +118,7 @@ public class MyFirst extends AppCompatActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         imageView = (ImageView) findViewById(R.id.image_view);
+        next = (ImageView) findViewById(R.id.righting);
 
         chatAdapter = new ChatAdapter(this,onItemClickListener);
         recyclerView.setAdapter(chatAdapter);
@@ -131,6 +138,32 @@ public class MyFirst extends AppCompatActivity {
 
                 speechText = "";
 
+
+                if (handler == null) {
+                    handler = new IATHandler(MyFirst.this);
+                    handler.delegate = MyFirst.this.delegate;
+                }
+
+                if (!ttsHandler.getSpeaking()) {
+                    if (!handler.isListening) {//如果语音未启动 则可以start
+                        handler.start();
+                    } else {
+                        handler.stop();
+
+                    }
+                }
+
+
+
+//                ttsHandler.speak("Hi,My name is grace!");
+//                ttsHandler.speak(" As the largest Intelligent Speech technology provider in China, iFLYTEK has long-term research accumulation in the Intelligent Speech area, and obtained leading technology world-wide in Chinese Speech Synthesis, Speech Recognition, and Speech Evaluation. iFLYTEK is the only \"National 863 Plan Achievement Industrialization Base\", \"Key Software Enterprises in State Plan\", \"Key high and new-tech enterprise of national Torch Plan\", \"National high-tech industrialization demonstration project\" with the direction of Speech Technology in China, and is determined as the Leading Organization of Chinese speech interaction technology Standards Working group, by Ministry of Information Industry, leading to set the Chinese Speech Technology standard. iFLYTEK obtained the only \"State Science and Technology Awards (Second prize)\" in Chinese speech industry in 2003, and the highest honor of independent innovation of Chinese IT industry \"Major technological inventions in Information Industry Awards\" in 2005, first rank of English Speech Synthesis Intenational Competition (Blizzard Challenge) for four consecutive years from 2006 to 2009, first rank of International Speaker Recognition and Evaluation Competition (National Institute of standards and technology - NIST 2008) in 2008, and first rank of International Language Recogntion Evaluation Contest (NIST 2009) high difficulty confusion dialect test, and second for General Contest in 2009.");
+
+            }
+            });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
                 if (over) {//5个问题全部结束 进入下一个界面
                     Toast.makeText(MyFirst.this, "问答已经结束", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
@@ -141,24 +174,10 @@ public class MyFirst extends AppCompatActivity {
                     startActivity(intent);
                     return;
                 }
-
-                if (handler == null) {
-                    handler = new IATHandler(MyFirst.this);
-                    handler.delegate = MyFirst.this.delegate;
-                }
-
-                if (!handler.isListening) {//如果语音未启动 则可以start
-                    handler.start();
-                } else {
-                    handler.stop();
-                }
-
-
-//                ttsHandler.speak("Hi,My name is grace!");
-//                ttsHandler.speak(" As the largest Intelligent Speech technology provider in China, iFLYTEK has long-term research accumulation in the Intelligent Speech area, and obtained leading technology world-wide in Chinese Speech Synthesis, Speech Recognition, and Speech Evaluation. iFLYTEK is the only \"National 863 Plan Achievement Industrialization Base\", \"Key Software Enterprises in State Plan\", \"Key high and new-tech enterprise of national Torch Plan\", \"National high-tech industrialization demonstration project\" with the direction of Speech Technology in China, and is determined as the Leading Organization of Chinese speech interaction technology Standards Working group, by Ministry of Information Industry, leading to set the Chinese Speech Technology standard. iFLYTEK obtained the only \"State Science and Technology Awards (Second prize)\" in Chinese speech industry in 2003, and the highest honor of independent innovation of Chinese IT industry \"Major technological inventions in Information Industry Awards\" in 2005, first rank of English Speech Synthesis Intenational Competition (Blizzard Challenge) for four consecutive years from 2006 to 2009, first rank of International Speaker Recognition and Evaluation Competition (National Institute of standards and technology - NIST 2008) in 2008, and first rank of International Language Recogntion Evaluation Contest (NIST 2009) high difficulty confusion dialect test, and second for General Contest in 2009.");
-
             }
-            });
+        });
+
+
                                      }
     //初始化问题列表
     public void initQuestion(){

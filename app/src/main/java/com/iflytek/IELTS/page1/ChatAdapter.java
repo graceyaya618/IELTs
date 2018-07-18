@@ -86,7 +86,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         if (position % 2 == 0) {
             questionHolder qh = (questionHolder) holder;
-            qh.questionBubble.getLayoutParams().width = chatItemModel.getVoiceText().length() * 10;
+            qh.questionBubble.getLayoutParams().width = chatItemModel.getVoiceText().length() * 5;
 
         } else if (position % 2 == 1) {
 
