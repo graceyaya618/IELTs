@@ -164,7 +164,7 @@ public class MyFirst extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                if (over) {//5个问题全部结束 进入下一个界面
+//                if (over) {//5个问题全部结束 进入下一个界面    这个OVER是用来判断全部问题回答结束的
                     Toast.makeText(MyFirst.this, "问答已经结束", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent();
                     intent.setClass(MyFirst.this, AnswerActivity.class);
@@ -172,8 +172,8 @@ public class MyFirst extends AppCompatActivity {
                     intent.putParcelableArrayListExtra("values", megerQuestionAndAnswer());//向跳转到的视图传值
 
                     startActivity(intent);
-                    return;
-                }
+//                    return;
+//                }
             }
         });
 
